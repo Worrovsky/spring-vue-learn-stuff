@@ -1,12 +1,17 @@
 <!-- MarkdownTOC autolink="true" -->
 
-- [Выполнение кода при запуске приложения через CommandLineRunner](#%D0%92%D1%8B%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D0%B4%D0%B0-%D0%BF%D1%80%D0%B8-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B5-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-commandlinerunner)
-- [Архитектура приложения](#%D0%90%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F)
-- [Построение REST API](#%D0%9F%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%B8%D0%B5-rest-api)
-- [ToDo](#todo)
+- [Backend](#backend)
+    - [Выполнение кода при запуске приложения через CommandLineRunner](#%D0%92%D1%8B%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D0%B4%D0%B0-%D0%BF%D1%80%D0%B8-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B5-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-commandlinerunner)
+    - [Архитектура приложения](#%D0%90%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F)
+    - [Построение REST API](#%D0%9F%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%B8%D0%B5-rest-api)
+    - [ToDo](#todo)
+- [Frontend](#frontend)
+    - [Инициализации проекта](#%D0%98%D0%BD%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0)
+    - [ToDo](#todo-1)
 
 <!-- /MarkdownTOC -->
 
+# Backend
 
 ## Выполнение кода при запуске приложения через CommandLineRunner
 
@@ -77,5 +82,34 @@ DB <- DAO/Repository <- DBService
 Почему при создании нового нельзя установить id в БД???
 Swagger посмотреть
  
+# Frontend
 
+## Инициализации проекта
+
+Создание
+
+    vue create frontend --no-git
+
+Добавление vuetify
+
+    vue add vuetify
+
+Проверка
+
+    npm run serve
+
+
+
+
+
+Подключить **webpack**
+
+    cd frontend
+    npm i webpack webpack-cli -D
+    touch webpack.config.js
+
+
+## ToDo
+
+Есть `vue init -h`, что-то по создание из шаблонов с git
 
