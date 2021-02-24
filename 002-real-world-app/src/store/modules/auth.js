@@ -16,6 +16,7 @@ export const mutationTypes = {
 
 export const actionTypes = {
   register: '[auth] register',
+  signin: '[auth] signin',
 }
 
 const mutations = {
@@ -39,25 +40,48 @@ const mutations = {
   },
 }
 
+const runAuthMethod = (method, context, credentials) => {
+  return new Promise((resolve) => {
+    context.commit(mutationTypes.registerStart)
+    method(credentials)
+      .then((response) => {
+        context.commit(mutationTypes.registerSuccess, response.data.user)
+        setItem('accessToken', response.data.user.token)
+        resolve(response.data.user)
+      })
+      .catch((result) => {
+        console.log('result: ', result)
+        context.commit(
+          mutationTypes.registerFailure,
+          result.response.data.errors
+        )
+      })
+  })
+}
+
 const actions = {
   [actionTypes.register](context, credentials) {
-    return new Promise((resolve) => {
-      context.commit(mutationTypes.registerStart)
-      authApi
-        .register(credentials)
-        .then((response) => {
-          context.commit(mutationTypes.registerSuccess, response.data.user)
-          setItem('accessToken', response.data.user.token)
-          resolve(response.data.user)
-        })
-        .catch((result) => {
-          console.log('result: ', result)
-          context.commit(
-            mutationTypes.registerFailure,
-            result.response.data.errors
-          )
-        })
-    })
+    return runAuthMethod(authApi.register, context, credentials)
+    // return new Promise((resolve) => {
+    //   context.commit(mutationTypes.registerStart)
+    //   authApi
+    //     .register(credentials)
+    //     .then((response) => {
+    //       context.commit(mutationTypes.registerSuccess, response.data.user)
+    //       setItem('accessToken', response.data.user.token)
+    //       resolve(response.data.user)
+    //     })
+    //     .catch((result) => {
+    //       console.log('result: ', result)
+    //       context.commit(
+    //         mutationTypes.registerFailure,
+    //         result.response.data.errors
+    //       )
+    //     })
+    // })
+  },
+  [actionTypes.signin](context, credentials) {
+    return runAuthMethod(authApi.signin, context, credentials)
   },
 }
 
