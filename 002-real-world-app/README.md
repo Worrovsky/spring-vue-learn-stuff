@@ -213,3 +213,19 @@
       onSubmit() {
         this.$store.dispatch(actionTypes.register)
       }
+
+## Использование mapState
+
+Пример. Обращать внимание на spread-оператор (...) 
+
+    import {mapState} from 'vuex'
+    ...
+      computed: {
+        ...mapState({
+          isSubmitting: state => state.auth.isSubmitting,
+          ... 
+        })
+      }
+
+* немного сокращает запись
+* группирует вычисляемые свойства, связанные с хранилищем, в одном месте, что упрощает сопровождение
