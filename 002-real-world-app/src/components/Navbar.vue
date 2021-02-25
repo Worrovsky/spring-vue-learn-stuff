@@ -4,7 +4,7 @@
     <v-toolbar-title to="/">Real App</v-toolbar-title>
     <v-spacer></v-spacer>
 
-    <template v-if="!isLoggedIn">
+    <template v-if="isAnonimous">
       <v-btn outlined text to="/">Home</v-btn>
       <v-btn outlined text to="/register"
         ><v-icon dense>mdi-login</v-icon>Sign Up</v-btn
@@ -29,14 +29,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+
+import { getterTypes } from '@/store/modules/auth'
 
 export default {
   name: 'AppNavbar',
   computed: {
-    ...mapState({
-      isLoggedIn: (state) => state.auth.isLoggedIn,
-      currentUser: (state) => state.auth.currentUser,
+    ...mapGetters({
+      currentUser: getterTypes.currentUser,
+      isAnonimous: getterTypes.isAnonimous,
+      isLoggedIn: getterTypes.isLoggedIn,
     }),
   },
 }

@@ -1,6 +1,8 @@
 import authApi from '@/api/auth'
 import { setItem } from '@/utils/storageUtils'
 
+const preffix = '[auth]'
+
 const state = {
   isSubmitting: false,
   currentUser: null,
@@ -17,6 +19,12 @@ export const mutationTypes = {
 export const actionTypes = {
   register: '[auth] register',
   signin: '[auth] signin',
+}
+
+export const getterTypes = {
+  currentUser: `${preffix} currentUser`,
+  isLoggedIn: `${preffix} isLoggedIn`,
+  isAnonimous: `${preffix} isAnonimous`,
 }
 
 const mutations = {
@@ -62,26 +70,21 @@ const runAuthMethod = (method, context, credentials) => {
 const actions = {
   [actionTypes.register](context, credentials) {
     return runAuthMethod(authApi.register, context, credentials)
-    // return new Promise((resolve) => {
-    //   context.commit(mutationTypes.registerStart)
-    //   authApi
-    //     .register(credentials)
-    //     .then((response) => {
-    //       context.commit(mutationTypes.registerSuccess, response.data.user)
-    //       setItem('accessToken', response.data.user.token)
-    //       resolve(response.data.user)
-    //     })
-    //     .catch((result) => {
-    //       console.log('result: ', result)
-    //       context.commit(
-    //         mutationTypes.registerFailure,
-    //         result.response.data.errors
-    //       )
-    //     })
-    // })
   },
   [actionTypes.signin](context, credentials) {
     return runAuthMethod(authApi.signin, context, credentials)
+  },
+}
+
+const getters = {
+  [getterTypes.currentUser]: (state) => {
+    return state.currentUser
+  },
+  [getterTypes.isLoggedIn]: (state) => {
+    return Boolean(state.isLoggedIn)
+  },
+  [getterTypes.isAnonimous]: (state) => {
+    return state.isLoggedIn === false
   },
 }
 
@@ -89,4 +92,5 @@ export default {
   state,
   mutations,
   actions,
+  getters,
 }

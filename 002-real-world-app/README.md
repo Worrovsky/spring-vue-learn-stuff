@@ -229,3 +229,34 @@
 
 * немного сокращает запись
 * группирует вычисляемые свойства, связанные с хранилищем, в одном месте, что упрощает сопровождение
+
+## Геттеры в Vuex
+
+Когда нужно получить значения на основе свойств хранилища или просто получить эти свойства. Аналог `computed`.
+
+    // файл модуля хранилища (напр. @/store/modules/auth)
+    const getters = {
+      currentUser: state => {
+        return state.currentUser // здесь нет префиксов, видим то, что есть в хранилище "локальном"
+      }
+    }
+    ... 
+    export default {
+      ...,
+      getters
+    }
+
+Можно применять ту же технику с `getterTypes` как для мутаций и действий
+
+Вызывать можно через `$store.getters.currentUser` или через хелпер `mapGetters`(объект, ключ - имя свойства в компоненте, значение - имя геттера, заданное в хранилище)
+
+    // файл компонента, где нужно вызвать геттер
+    import {mapGetters} from 'vuex'
+    iimport {getterTypes} from '@/store/modules/auth'
+    ...
+    computed: {
+      ...mapGetters({
+        currentUser: getterTypes.currentUser,
+      })
+    }
+  
