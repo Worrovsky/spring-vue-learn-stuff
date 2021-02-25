@@ -15,9 +15,15 @@
 <script>
 import AppNavbar from '@/components/Navbar'
 
+import { actionTypes } from '@/store/modules/auth'
+
 export default {
   components: {
     AppNavbar,
+  },
+
+  mounted() {
+    this.$store.dispatch(actionTypes.getCurrentUser)
   },
 }
 </script>

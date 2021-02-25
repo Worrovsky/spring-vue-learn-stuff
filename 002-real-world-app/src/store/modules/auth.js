@@ -8,17 +8,23 @@ const state = {
   currentUser: null,
   validationErrors: null,
   isLoggedIn: null, // 3-state: logged in, not logged in, unknowne
+  isLoading: false,
 }
 
 export const mutationTypes = {
-  registerStart: '[auth] registerStart',
-  registerFailure: '[auth] registerFailure',
-  registerSuccess: '[auth] registerSuccess',
+  registerStart: `${preffix} registerStart`,
+  registerFailure: `${preffix} registerFailure`,
+  registerSuccess: `${preffix} registerSuccess`,
+
+  getCurrentUserStart: `${preffix} registerStart`,
+  getCurrentUserFailure: `${preffix} registerFailure`,
+  getCurrentUserSuccess: `${preffix} registerSuccess`,
 }
 
 export const actionTypes = {
-  register: '[auth] register',
-  signin: '[auth] signin',
+  register: `${preffix} register`,
+  signin: `${preffix} signin`,
+  getCurrentUser: `${preffix} getCurrentUser`,
 }
 
 export const getterTypes = {
@@ -45,6 +51,20 @@ const mutations = {
     state.currentUser = null
     state.isLoggedIn = false
     state.validationErrors = errors
+  },
+
+  [mutationTypes.getCurrentUserStart](state) {
+    state.isLoading = true
+  },
+  [mutationTypes.getCurrentUserSuccess](state, user) {
+    state.isLoading = false
+    state.currentUser = user
+    state.isLoggedIn = true
+  },
+  [mutationTypes.getCurrentUserFailure](state) {
+    state.isLoading = false
+    state.currentUser = null
+    state.isLoggedIn = false
   },
 }
 
@@ -73,6 +93,23 @@ const actions = {
   },
   [actionTypes.signin](context, credentials) {
     return runAuthMethod(authApi.signin, context, credentials)
+  },
+
+  [actionTypes.getCurrentUser](context) {
+    return new Promise(() => {
+      context.commit(mutationTypes.getCurrentUserStart)
+      authApi
+        .getCurrentUser()
+        .then((response) => {
+          context.commit(
+            mutationTypes.getCurrentUserSuccess,
+            response.data.user
+          )
+        })
+        .catch(() => {
+          context.commit(mutationTypes.getCurrentUserFailure)
+        })
+    })
   },
 }
 
