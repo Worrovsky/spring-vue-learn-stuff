@@ -30,6 +30,7 @@
 import AppValidationErrors from '@/components/ValidationErrors'
 
 import { actionTypes } from '@/store/modules/auth'
+import { mapState } from 'vuex'
 
 export default {
   name: 'AppSignIn',
@@ -44,12 +45,10 @@ export default {
     }
   },
   computed: {
-    validationErrors() {
-      return this.$store.state.auth.validationErrors
-    },
-    isSubmitting() {
-      return this.$store.state.auth.isSubmitting
-    },
+    ...mapState({
+      validationErrors: (state) => state.auth.validationErrors,
+      isSubmitting: (state) => state.auth.isSubmitting,
+    }),
   },
   methods: {
     onSubmit() {

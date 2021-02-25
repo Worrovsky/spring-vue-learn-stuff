@@ -1,16 +1,9 @@
 <template>
   <v-app>
     <v-main>
-      <v-app-bar app></v-app-bar>
+      <app-navbar></app-navbar>
 
       <v-container>
-        <v-row justify="center">
-          <div>
-            <router-link to="/">Home</router-link> |
-            <router-link to="/register">Register</router-link> |
-            <router-link to="/signin">Sign In</router-link>
-          </div>
-        </v-row>
         <v-row>
           <router-view></router-view>
         </v-row>
@@ -18,3 +11,13 @@
     </v-main>
   </v-app>
 </template>
+
+<script>
+import AppNavbar from '@/components/Navbar'
+
+export default {
+  components: {
+    AppNavbar,
+  },
+}
+</script>

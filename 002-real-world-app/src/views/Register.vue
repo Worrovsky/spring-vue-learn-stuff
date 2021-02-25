@@ -33,6 +33,7 @@
 import AppValidationErrors from '@/components/ValidationErrors'
 
 import { actionTypes } from '@/store/modules/auth'
+import { mapState } from 'vuex'
 
 export default {
   name: 'AppRegister',
@@ -40,12 +41,10 @@ export default {
     AppValidationErrors,
   },
   computed: {
-    isSubmitting() {
-      return this.$store.state.auth.isSubmitting
-    },
-    validationErrors() {
-      return this.$store.state.auth.validationErrors
-    },
+    ...mapState({
+      isSubmitting: (state) => state.auth.isSubmitting,
+      validationErrors: (state) => state.auth.validationErrors,
+    }),
   },
   data() {
     return {
