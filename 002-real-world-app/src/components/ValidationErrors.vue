@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-list>
-      <v-subheader>ERRORS:</v-subheader>
+      <v-subheader color="error">ERRORS:</v-subheader>
       <v-list-item v-for="(message, i) in errorMessages" :key="i">
         <v-list-item-icon>
           <v-icon color="error">mdi-alert</v-icon>
