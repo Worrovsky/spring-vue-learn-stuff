@@ -10,19 +10,29 @@ const routes = [
     component: () => import('@/views/GlobalFeed'),
   },
   {
+    path: '/feed',
+    name: 'yourFeed',
+    component: () => import('@/views/YourFeed'),
+  },
+  {
     path: '/register',
     name: 'register',
-    component: () => import('@/views/Register.vue'),
+    component: () => import('@/views/Register'),
   },
   {
     path: '/signin',
     name: 'signin',
-    component: () => import('@/views/SignIn.vue'),
+    component: () => import('@/views/SignIn'),
   },
   {
     path: '/userProfile',
     name: 'userProfile',
     component: () => import('@/views/GlobalFeed'),
+  },
+  {
+    path: '/tags/:slug',
+    name: 'tagsFeed',
+    component: () => import('@/views/TagsFeed'),
   },
 ]
 

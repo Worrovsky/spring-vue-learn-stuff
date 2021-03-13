@@ -1,14 +1,8 @@
 <template>
   <div>
-    <div v-if="isLoading">
-      <v-progress-linear
-        color="deep-purple accent-4"
-        indeterminate
-        rounded
-        height="6"
-      ></v-progress-linear>
-    </div>
-    <div v-if="error">Something went wrong</div>
+    <app-loading v-if="isLoading"></app-loading>
+
+    <app-error-message v-if="error" />
 
     <div v-if="feed">
       <v-card v-for="(article, i) in feed.articles" :key="i">
@@ -64,17 +58,22 @@
 </template>
 
 <script>
-import { actionTypes } from '@/store/modules/feed'
 import AppPagination from '@/components/Pagination'
-import { mapState } from 'vuex'
-import { itemsLimitForPagination } from '@/utils/variables'
+import AppLoading from '@/components/Loading'
+import AppErrorMessage from '@/components/ErrorMessage'
 
+import { mapState } from 'vuex'
 import { stringify, parseUrl } from 'query-string'
+
+import { actionTypes } from '@/store/modules/feed'
+import { itemsLimitForPagination } from '@/utils/variables'
 
 export default {
   name: 'AppFeed',
   components: {
     AppPagination,
+    AppLoading,
+    AppErrorMessage,
   },
   props: {
     apiUrl: {
@@ -117,7 +116,7 @@ export default {
         offset: this.offset,
         ...parsedUrl.query,
       })
-      const urlWithQuery = `${this.apiUrl}?${queryParams}`
+      const urlWithQuery = `${parsedUrl.url}?${queryParams}`
       this.$store.dispatch(actionTypes.getFeed, { apiUrl: urlWithQuery })
     },
   },

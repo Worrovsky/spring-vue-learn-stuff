@@ -1,37 +1,36 @@
 <template>
   <div>
-    <v-progress-linear
-      v-if="isLoading"
-      color="deep-purple accent-4"
-      indeterminate
-      rounded
-      height="6"
-    ></v-progress-linear>
+    <app-loading v-if="isLoading" />
+    <app-error-message v-if="error" />
 
     <div v-if="tags" class="grey lighten-3">
       <div>Popular tags</div>
-      <v-btn
-        rounded
-        x-small
-        class="white--text blue-grey lighten-2 mr-1"
+      <router-link
         v-for="(tag, i) in tags"
         :key="i"
-        to="{name: tag, params: {slug:tag}}"
+        :to="{ name: 'tagsFeed', params: { slug: tag } }"
       >
-        {{ tag }}
-      </v-btn>
+        <v-btn rounded x-small class="white--text blue-grey lighten-2 mr-1">
+          {{ tag }}
+        </v-btn>
+      </router-link>
     </div>
-
-    <div v-if="error">Oops {{ error }}</div>
   </div>
 </template>
 
 <script>
+import AppLoading from '@/components/Loading'
+import AppErrorMessage from '@/components/ErrorMessage'
+
 import { actionTypes } from '@/store/modules/popularTags'
 import { mapState } from 'vuex'
 
 export default {
   name: 'AppPopularTags',
+  components: {
+    AppLoading,
+    AppErrorMessage,
+  },
   computed: {
     ...mapState({
       isLoading: (state) => state.popularTags.isLoading,
