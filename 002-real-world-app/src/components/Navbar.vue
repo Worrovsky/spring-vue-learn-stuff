@@ -19,7 +19,7 @@
       <v-btn outlined text :to="{ name: 'createArticle' }">
         <v-icon>mdi-pencil</v-icon>New Article</v-btn
       >
-      <v-btn outlined text to="/"
+      <v-btn outlined text :to="{ name: 'settings' }"
         ><v-icon>mdi-account-cog </v-icon>Settings</v-btn
       >
       <v-btn outlined text to="/">{{ currentUser.username }}</v-btn>
