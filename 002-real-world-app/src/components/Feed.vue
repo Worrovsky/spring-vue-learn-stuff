@@ -35,7 +35,12 @@
                 </div>
               </v-col>
               <v-col cols="1">
-                <div><v-icon>mdi-heart</v-icon></div>
+                <!-- <div><v-icon>mdi-heart</v-icon></div> -->
+                <app-add-to-favorites
+                  :is-favorited="article.favorited"
+                  :article-slug="article.slug"
+                  :favorites-count="article.favoritesCount"
+                />
               </v-col>
             </v-row>
           </v-container>
@@ -75,6 +80,7 @@ import AppPagination from '@/components/Pagination'
 import AppLoading from '@/components/Loading'
 import AppErrorMessage from '@/components/ErrorMessage'
 import AppTagList from '@/components/TagList'
+import AppAddToFavorites from '@/components/AddToFavorites'
 
 import { mapState } from 'vuex'
 import { stringify, parseUrl } from 'query-string'
@@ -89,6 +95,7 @@ export default {
     AppLoading,
     AppErrorMessage,
     AppTagList,
+    AppAddToFavorites,
   },
   props: {
     apiUrl: {
