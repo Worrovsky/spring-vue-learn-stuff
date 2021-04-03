@@ -1,64 +1,72 @@
 <template>
-  <div>
-    <app-loading v-if="isLoading" />
-    <div v-if="article">
-      <h1>{{ article.title }}</h1>
-      <div class="d-flex">
-        <div class="ma-1 align-self-center">
-          <router-link
-            :to="{
-              name: 'userProfile',
-              params: { slug: article.author.username },
-            }"
-          >
-            <v-avatar size="40">
-              <v-img :src="article.author.image" alt="user" />
-            </v-avatar>
-          </router-link>
+  <v-container>
+    <v-row>
+      <app-loading v-if="isLoading" />
+      <div v-if="article">
+        <h1>{{ article.title }}</h1>
+        <div class="d-flex">
+          <div class="ma-1 align-self-center">
+            <router-link
+              :to="{
+                name: 'userProfile',
+                params: { slug: article.author.username },
+              }"
+            >
+              <v-avatar size="40">
+                <v-img :src="article.author.image" alt="user" />
+              </v-avatar>
+            </router-link>
+          </div>
+          <div class="d-flex flex-column justify-center">
+            <router-link
+              class="text-body-1 text-decoration-none green--text text--darken-3"
+              :to="{
+                name: 'userProfile',
+                params: { slug: article.author.username },
+              }"
+              >{{ article.author.username }}</router-link
+            >
+            <span class="text-body-2">{{ article.createdAt }}</span>
+          </div>
+          <div class="ma-3" v-if="isAuthor">
+            <v-btn
+              outlined
+              rounded
+              small
+              class="ma-2"
+              :to="{ name: 'editArticle', params: { slug: article.slug } }"
+            >
+              <v-icon small>mdi-pencil</v-icon> Edit Article</v-btn
+            >
+            <v-btn
+              outlined
+              rounded
+              small
+              color="error"
+              @click="onDeleteArticle"
+            >
+              <v-icon small>mdi-delete</v-icon>
+              Delete Article</v-btn
+            >
+          </div>
         </div>
-        <div class="d-flex flex-column justify-center">
-          <router-link
-            class="text-body-1 text-decoration-none green--text text--darken-3"
-            :to="{
-              name: 'userProfile',
-              params: { slug: article.author.username },
-            }"
-            >{{ article.author.username }}</router-link
-          >
-          <span class="text-body-2">{{ article.createdAt }}</span>
-        </div>
-        <div class="ma-3" v-if="isAuthor">
-          <v-btn
-            outlined
-            rounded
-            small
-            class="ma-2"
-            :to="{ name: 'editArticle', params: { slug: article.slug } }"
-          >
-            <v-icon small>mdi-pencil</v-icon> Edit Article</v-btn
-          >
-          <v-btn outlined rounded small color="error" @click="onDeleteArticle">
-            <v-icon small>mdi-delete</v-icon>
-            Delete Article</v-btn
-          >
-        </div>
+
+        <v-container>
+          <v-row>
+            <v-col>
+              {{ article.body }}
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <app-tag-list :tags="article.tagList" />
+            </v-col>
+          </v-row>
+        </v-container>
       </div>
-
-      <v-container>
-        <v-row>
-          <v-col>
-            {{ article.body }}
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col>
-            <app-tag-list :tags="article.tagList" />
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-  </div>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

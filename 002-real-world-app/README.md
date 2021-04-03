@@ -78,6 +78,13 @@
       </div>
     </template>
 
+Вообще лучше **помещать в контейнер**
+
+    <v-container>
+      <v-row>
+        <app-loading v-if="isLoading" />
+      </v-row>
+    </v-container>
 
 
 ## Vuex

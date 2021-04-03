@@ -42,7 +42,7 @@ const routes = [
   {
     path: '/articles/:slug/edit',
     name: 'editArticle',
-    component: () => import('@/views/Article'),
+    component: () => import('@/views/EditArticle'),
   },
   {
     path: '/articles/new',

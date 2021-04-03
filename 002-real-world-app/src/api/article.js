@@ -17,8 +17,15 @@ const createArticle = (articleInput) => {
     .then((response) => response.data.article)
 }
 
+const updateArticle = (slug, articleInput) => {
+  const apiUrl = `/articles/${slug}`
+  return axios
+    .put(apiUrl, articleInput)
+    .then((response) => response.data.article)
+}
 export default {
   getArticle,
   deleteArticle,
   createArticle,
+  updateArticle,
 }
