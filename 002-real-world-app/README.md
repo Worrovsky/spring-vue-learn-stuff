@@ -34,6 +34,7 @@
 
 ## Vuetify
 
+### 
 Основа
 
     <v-app>
@@ -52,6 +53,32 @@
         </v-col>
       </v-row>
     </v-container>
+
+### Особенности v-progress-linear
+
+Не отображается, если в компоненте ничего нет кроме него самого по условию.
+
+Например не отображается:
+
+    <template>
+      <div>
+        <v-progress-linear v-if="isLoading" rounded
+      height="6" />
+        <h1 v-if="!isLoading">Hello</h1>
+      </div>
+    </template>
+
+А так отображается:
+  
+    <template>
+      <div>
+        <v-progress-linear v-if="isLoading" rounded
+            height="6" />
+        <h1>Hello</h1>
+      </div>
+    </template>
+
+
 
 ## Vuex
 

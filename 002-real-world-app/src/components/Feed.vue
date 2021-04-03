@@ -39,10 +39,23 @@
               </v-col>
             </v-row>
           </v-container>
-          <p>{{ article.title }}</p>
+          <router-link
+            class="text-decoration-none green--text"
+            :to="{ name: 'article', params: { slug: article.slug } }"
+          >
+            <p>
+              {{ article.title }}
+            </p>
+          </router-link>
         </v-card-title>
         <v-card-text>
-          {{ article.description }}
+          <p>
+            {{ article.description }}
+          </p>
+          <div class="d-flex">
+            <v-spacer></v-spacer>
+            <app-tag-list :tags="article.tagList" />
+          </div>
         </v-card-text>
       </v-card>
       <!--  -->
@@ -61,6 +74,7 @@
 import AppPagination from '@/components/Pagination'
 import AppLoading from '@/components/Loading'
 import AppErrorMessage from '@/components/ErrorMessage'
+import AppTagList from '@/components/TagList'
 
 import { mapState } from 'vuex'
 import { stringify, parseUrl } from 'query-string'
@@ -74,6 +88,7 @@ export default {
     AppPagination,
     AppLoading,
     AppErrorMessage,
+    AppTagList,
   },
   props: {
     apiUrl: {

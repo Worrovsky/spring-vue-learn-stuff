@@ -16,7 +16,7 @@
 
     <template v-if="isLoggedIn">
       <v-btn outlined text to="/">Home</v-btn>
-      <v-btn outlined text to="/">
+      <v-btn outlined text :to="{ name: 'createArticle' }">
         <v-icon>mdi-pencil</v-icon>New Article</v-btn
       >
       <v-btn outlined text to="/"

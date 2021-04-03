@@ -34,6 +34,21 @@ const routes = [
     name: 'tagsFeed',
     component: () => import('@/views/TagsFeed'),
   },
+  {
+    path: '/articles/:slug',
+    name: 'article',
+    component: () => import('@/views/Article'),
+  },
+  {
+    path: '/articles/:slug/edit',
+    name: 'editArticle',
+    component: () => import('@/views/Article'),
+  },
+  {
+    path: '/articles/new',
+    name: 'createArticle',
+    component: () => import('@/views/CreateArticle'),
+  },
 ]
 
 const router = new VueRouter({
