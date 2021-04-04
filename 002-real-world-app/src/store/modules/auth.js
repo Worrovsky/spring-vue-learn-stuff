@@ -96,7 +96,6 @@ const runAuthMethod = (method, context, credentials) => {
         resolve(response.data.user)
       })
       .catch((result) => {
-        console.log('result: ', result)
         context.commit(
           mutationTypes.registerFailure,
           result.response.data.errors

@@ -35,7 +35,6 @@
                 </div>
               </v-col>
               <v-col cols="1">
-                <!-- <div><v-icon>mdi-heart</v-icon></div> -->
                 <app-add-to-favorites
                   :is-favorited="article.favorited"
                   :article-slug="article.slug"
@@ -124,6 +123,9 @@ export default {
   },
   watch: {
     currentPage() {
+      this.fetchFeed()
+    },
+    apiUrl() {
       this.fetchFeed()
     },
   },

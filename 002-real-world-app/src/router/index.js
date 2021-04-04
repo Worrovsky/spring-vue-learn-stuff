@@ -25,9 +25,14 @@ const routes = [
     component: () => import('@/views/SignIn'),
   },
   {
-    path: '/userProfile',
+    path: '/profiles/:slug',
     name: 'userProfile',
-    component: () => import('@/views/GlobalFeed'),
+    component: () => import('@/views/UserProfile'),
+  },
+  {
+    path: '/profiles/:slug/favorites',
+    name: 'userProfileFavorites',
+    component: () => import('@/views/UserProfile'),
   },
   {
     path: '/tags/:slug',

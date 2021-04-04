@@ -22,7 +22,12 @@
       <v-btn outlined text :to="{ name: 'settings' }"
         ><v-icon>mdi-account-cog </v-icon>Settings</v-btn
       >
-      <v-btn outlined text to="/">{{ currentUser.username }}</v-btn>
+      <v-btn
+        outlined
+        text
+        :to="{ name: 'userProfile', params: { slug: currentUser.username } }"
+        >{{ currentUser.username }}</v-btn
+      >
     </template>
     <!-- <router-link to="/">Home</router-link> -->
   </v-app-bar>

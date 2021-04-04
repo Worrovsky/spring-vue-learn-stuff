@@ -62,8 +62,7 @@ export default {
         email: this.email,
       }
 
-      this.$store.dispatch(actionTypes.register, credentials).then((user) => {
-        console.log(user)
+      this.$store.dispatch(actionTypes.register, credentials).then(() => {
         this.$router.push({ name: 'home' })
       })
     },
