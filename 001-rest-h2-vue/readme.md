@@ -15,9 +15,13 @@
 
 ## Выполнение кода при запуске приложения через CommandLineRunner
 
-* Создаем класс с аннотацией `@Configuration` (по сути нужен `@Component`)
-* В нем создаем бин, возвращающий `CommandLineRunner`
-
+* Вариант 1:
+    - создаем класс с аннотацией `@Configuration` (по сути нужен `@Component`)
+    - в нем создаем бин, возвращающий `CommandLineRunner`
+* Вариант 2:
+    - создаем класс, реализующий `CommandLineRunner`
+    - делаем его бином (например `@Component`)
+    
 ## Архитектура приложения
 
 [Service Layer in Spring MVC](https://medium.com/stackavenue/why-to-use-service-layer-in-spring-mvc-5f4fc52643c0)
