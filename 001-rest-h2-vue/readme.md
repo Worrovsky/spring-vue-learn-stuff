@@ -17,10 +17,13 @@
 
 * Вариант 1:
     - создаем класс с аннотацией `@Configuration` (по сути нужен `@Component`)
+        + можно прямо в `@SpringBootApplication`
     - в нем создаем бин, возвращающий `CommandLineRunner`
 * Вариант 2:
     - создаем класс, реализующий `CommandLineRunner`
     - делаем его бином (например `@Component`)
+
+TODO: ApplicationRunner: сравнение, те же способы
     
 ## Архитектура приложения
 
