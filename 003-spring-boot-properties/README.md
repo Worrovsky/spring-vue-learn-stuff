@@ -2,6 +2,13 @@
 
 [spring boot docs/how-to](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/reference/htmlsingle/#howto-properties-and-configuration)
 
+## Общее про свойства
+
+* можно комбинировать в файлах и самих свойствах
+    - например в файле `spring.datasourse.url=jdbc:postgres://${DB_HOST}/${DB_NAME}` (предполагается, что созданы такие переменные окружения)
+    - `@Value("${nameFromProperties}: ${userId}")`
+* можно задавать значения по умолчанию через `:` (как в файлах свойств, так и в `@Value`)
+
 ## Через аннотацию `@Value`
 
 [baeldung](https://www.baeldung.com/spring-value-annotation)
@@ -13,13 +20,9 @@
 
 * конвенции именования - точное, как задано в аннотации, так и файле свойств
 * типы: String, boolean, int
-* можно указывать значения по умолчанию
+* можно указывать значения по умолчанию `@Value("${HOME:defaultHomeProperty}")`
 * можно получать системные переменные
 * можно в параметрах указывать
-
-Пример системной переменной в параметре
-
-    
 
 ## Конфигурационный класс с аннотацией `@ConfigurationProperties`
 
@@ -36,7 +39,7 @@
 
 * конвенции именования - разные: точные, камед-case, дефис, подчеркивание и т. п., но с префиксом
 
-## `@PropertySource` и Enviroment
+## Enviroment
 
 [docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/PropertySource.html)
 [medium (ru)](https://medium.com/@ekaterina.khudiakova/https-medium-com-ekaterina-khudiakova-spring-environment-profiles-and-properties-c712685ea7a7)
@@ -53,7 +56,7 @@
 Как получить доступ:
 
 * Через `@Autowired`: `@Autowired Environment env;`
-* С помощью **ApplicationRunner**
+* С помощью **ApplicationRunner** (хотя это похоже общий механизм Spring, тут не обязательно именно ApplicationRunner)
 
 Вот пример:
 
@@ -77,3 +80,28 @@
 
 Можно создать файл свойств для профиля по умолчанию `application-default.properties`
 
+
+
+## Собстенный источник свойств через расширение класса PropertySource
+
+Создаем класс и реализуем метод `getProperty()`
+
+    public class CustomProperty extends PropertySource<String> {
+        @Override
+        public Object getProperty(String name) {
+            if (name.equalsIgnoreCase("custom-property")) {
+                return "value for custom property";
+            }
+            return null;
+        } }
+
+Регистрируем его как источник свойств в контексте: см. `Application::main` ()
+
+Теперь свойства, определенные в классе можно использовать как обычные
+
+
+## Варианты с внешними источниками свойств
+
+Хранение свойств на github и сервер для доступа к ним (легко, пара зависимостей). [Подробнее (youtube)](https://youtu.be/PsNNGuLi0ns?t=1995)
+
+Использование хранилища Vautl для безопасного хранения credentials [Там же](https://youtu.be/PsNNGuLi0ns?t=2347)

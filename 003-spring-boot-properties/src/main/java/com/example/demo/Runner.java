@@ -19,6 +19,9 @@ public class Runner implements CommandLineRunner {
     @Value("${age}")
     private int age;
 
+    @Value("${nameFromProperties} ${userId}")
+    private String combinedProperty;
+
     private final EmailProps emailProps;
 
     @Autowired
@@ -36,6 +39,8 @@ public class Runner implements CommandLineRunner {
         System.out.println("Your id: " + userId);
         System.out.println("Your are confirmed: " + isConfirmed);
         System.out.println("You age: " + age);
+
+        System.out.println("Combined: " + combinedProperty);
 
         System.out.println(emailProps);
 
