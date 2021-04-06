@@ -2,12 +2,19 @@
 
 [spring boot docs/how-to](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/reference/htmlsingle/#howto-properties-and-configuration)
 
+## TODO
+
+https://www.baeldung.com/properties-with-spring
+
 ## Общее про свойства
 
 * можно комбинировать в файлах и самих свойствах
     - например в файле `spring.datasourse.url=jdbc:postgres://${DB_HOST}/${DB_NAME}` (предполагается, что созданы такие переменные окружения)
     - `@Value("${nameFromProperties}: ${userId}")`
 * можно задавать значения по умолчанию через `:` (как в файлах свойств, так и в `@Value`)
+
+
+Можно поключить [Actuator](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready) и просматривать свойства, профили и много еще чего
 
 ## Через аннотацию `@Value`
 
@@ -73,13 +80,15 @@
 
 Задать активные профили:
 
-* через коммандную строку `--spring.proviles.active=dev`
+* через командную строку `--spring.proviles.active=dev`
 * в Idea `Edit configuration...`
+* через свойство `spring.profile.active=prod,local`
 
 Теперь файлы свойств можно разделять: `application-dev.properties`, `vapplication-prod.properties`
 
 Можно создать файл свойств для профиля по умолчанию `application-default.properties`
 
+Бины можно по профилям разделять: `@Profile("dev")`
 
 
 ## Собстенный источник свойств через расширение класса PropertySource
@@ -105,3 +114,26 @@
 Хранение свойств на github и сервер для доступа к ним (легко, пара зависимостей). [Подробнее (youtube)](https://youtu.be/PsNNGuLi0ns?t=1995)
 
 Использование хранилища Vautl для безопасного хранения credentials [Там же](https://youtu.be/PsNNGuLi0ns?t=2347)
+
+## Аннотация @PropertySource
+
+[docs api](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/PropertySource.html)
+
+Создаем класс, помечаем этой аннотацией и `@Configuration`. Внутри аннотации указываем путь к файлу со свойствами.
+
+Внутри класса получаем экземпляр `Environment`, и можем читать свойства из файла
+
+    @Configuration
+    @PropertySource("classpath:/com/myco/app.properties")
+    public class AppConfig {
+        @Autowired
+        private Environment env;
+        ...
+            env.getProperty("acme.someProperty");
+    }
+
+Внутри `@PropertySource` можно свойства из других источников использовать. Так например разделить свойства по переменной окружения (по типу профиля - несколько файлов) `@PropertySource("classpath:/com/${my.placeholder:default/path}/app.properties")`
+
+[см. пример](https://github.com/eugenp/REST-With-Spring/blob/module1/m1-lesson4/um-webapp/src/main/java/com/baeldung/um/spring/UmPersistenceJpaConfig.java)
+
+
