@@ -119,9 +119,13 @@ https://www.baeldung.com/properties-with-spring
 
 [docs api](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/PropertySource.html)
 
-Создаем класс, помечаем этой аннотацией и `@Configuration`. Внутри аннотации указываем путь к файлу со свойствами.
+[baeldung](https://www.baeldung.com/properties-with-spring)
 
-Внутри класса получаем экземпляр `Environment`, и можем читать свойства из файла
+Создаем класс, помечаем этой аннотацией и `@Configuration`. Внутри аннотации указываем путь к файлу со свойствами. Можно несколько файлов указывать. Если есть колизии - последний источник имеет приоритет
+
+Два варианта получения свойств:
+
+**(Вариант 1)**: Внутри класса получаем экземпляр `Environment`, и можем читать свойства из файла
 
     @Configuration
     @PropertySource("classpath:/com/myco/app.properties")
@@ -132,7 +136,13 @@ https://www.baeldung.com/properties-with-spring
             env.getProperty("acme.someProperty");
     }
 
+Свойства естественно только строковые (см. сигнатуру `Environment.getProperty()`)
+
+**(Вариант 2)**: обычное использование `@Value`
+
+
 Внутри `@PropertySource` можно свойства из других источников использовать. Так например разделить свойства по переменной окружения (по типу профиля - несколько файлов) `@PropertySource("classpath:/com/${my.placeholder:default/path}/app.properties")`
+
 
 [см. пример](https://github.com/eugenp/REST-With-Spring/blob/module1/m1-lesson4/um-webapp/src/main/java/com/baeldung/um/spring/UmPersistenceJpaConfig.java)
 

@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.config.EmailProps;
+import com.example.demo.config.ExamplePropertiesFromCustomFiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +23,9 @@ public class Runner implements CommandLineRunner {
     @Value("${nameFromProperties} ${userId}")
     private String combinedProperty;
 
+    @Value("${foo.count}")
+    int countFromCustomPropertiesFile;
+
     private final EmailProps emailProps;
 
     @Autowired
@@ -32,8 +36,10 @@ public class Runner implements CommandLineRunner {
         this.emailProps = emailProps;
     }
 
+    @Autowired
+    ExamplePropertiesFromCustomFiles propertiesFromCustomFiles;
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         System.out.println("Hello, " + name);
 
         System.out.println("Your id: " + userId);
@@ -45,6 +51,9 @@ public class Runner implements CommandLineRunner {
         System.out.println(emailProps);
 
         System.out.println("Property from Environment: " + env.getProperty("email.post-index"));
+
+        propertiesFromCustomFiles.sayHello();
+        System.out.println("count from custom properties file(foo.properties) " + countFromCustomPropertiesFile);
     }
 
     private void sayFavoriteColor(String color) {
