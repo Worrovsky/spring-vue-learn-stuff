@@ -2,20 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>004-spring-core-context-container</artifactId>
+        <groupId>org.example</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
+    <packaging>war</packaging>
 
-    <groupId>org.example</groupId>
-    <artifactId>004-spring-core-context-container</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>non-web-app</module>
-        <module>web-app-servlet-2-api</module>
-        <module>web-app-servlet-3-api-xml-config</module>
-        <module>web-app-servlet-3-api-annotation-config</module>
-        <module>untitled</module>
-        <module>container-life-cycle</module>
-    </modules>
+    <artifactId>web-app-servlet-2-api</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -23,20 +18,21 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>5.3.5</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.3.5</version>
+            <artifactId>spring-web</artifactId>
+            <version>5.3.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.3.1</version>
+        </dependency>
     </dependencies>
 
 </project>
