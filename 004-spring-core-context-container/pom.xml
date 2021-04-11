@@ -15,6 +15,7 @@
         <module>web-app-servlet-3-api-annotation-config</module>
         <module>untitled</module>
         <module>container-life-cycle</module>
+        <module>bean-lifecycle</module>
     </modules>
 
     <properties>

@@ -16,6 +16,7 @@
     - [2.1 Аннотации @PostConstruct и @PreDestroy](#21-%D0%90%D0%BD%D0%BD%D0%BE%D1%82%D0%B0%D1%86%D0%B8%D0%B8-postconstruct-%D0%B8-predestroy)
     - [2.2 Переопределение BeanFactoryPostProcessor](#22-%D0%9F%D0%B5%D1%80%D0%B5%D0%BE%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-beanfactorypostprocessor)
     - [2.3 Переопределение BeanPostProcessor](#23-%D0%9F%D0%B5%D1%80%D0%B5%D0%BE%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-beanpostprocessor)
+- [3. Жизненный цикл бина \(более подробно\)](#3-%D0%96%D0%B8%D0%B7%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D1%86%D0%B8%D0%BA%D0%BB-%D0%B1%D0%B8%D0%BD%D0%B0-%D0%B1%D0%BE%D0%BB%D0%B5%D0%B5-%D0%BF%D0%BE%D0%B4%D1%80%D0%BE%D0%B1%D0%BD%D0%BE)
 
 <!-- /MarkdownTOC -->
 
@@ -154,3 +155,27 @@
 * затем метод BeanPostProcessor `postProcessBeforeInitialization()`
 * метод бина с `@PostConstruct`
 * метод BeanPostProcessor `postProcessAfterInitialization()`
+
+## 3. Жизненный цикл бина (более подробно)
+
+* создается контекст
+    - определения бинов создаются на основе конфигурации
+    - вызывается метод интерфейса **BeanFactoryPostProcessor**
+* создаются бины 
+    - создаются экземпляры бинов
+    - устанавливаются зависимости и свойства
+    - вызывается **BeanPostProcessor::postProcessBeforeInitialization()**
+    - вызывается метод с аннотацией **@PostConstruct**
+    - вызывается метод **InitializingBean::afterPropertiesSet()**
+        + бин должен реализовывать этот интерфейс
+        + для проверки/установки свойств
+    - вызывается метод из аннотации **@Bean(initMethod=...)**
+    - вызывается **BeanPostProcessor::postProcessAfterInitialization()**
+* бин готов к использованию
+* контекст уничтожается, и вместе с ним уничтожаются бины
+    - вызывается метод с аннотацией **@PreDestroy**
+    - вызывается метод **DisposableBean::destroy()**
+        + бин должен реализовывать этот интерфейс
+    - вызывается метод из аннотации **@Bean(destroyMethod=...)**
+
+Еще более подробно, см. [BeanFactory docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanFactory.html)
