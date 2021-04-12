@@ -23,6 +23,7 @@ public class ServiceBean {
 
     @PreDestroy
     public void destroy() {
+        System.out.println("");
         System.out.println( getClass().getName() + ": pre destroy done!");
     }
 }

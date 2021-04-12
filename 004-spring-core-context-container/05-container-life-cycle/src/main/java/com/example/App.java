@@ -14,5 +14,7 @@ public class App {
 
         ServiceBean bean = ctx.getBean(ServiceBean.class);
         bean.doWork();
+
+        ctx.close();
     }
 }

@@ -16,6 +16,7 @@
         <module>untitled</module>
         <module>container-life-cycle</module>
         <module>bean-lifecycle</module>
+        <module>07-close-context</module>
     </modules>
 
     <properties>

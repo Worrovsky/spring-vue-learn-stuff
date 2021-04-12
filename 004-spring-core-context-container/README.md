@@ -17,6 +17,7 @@
     - [2.2 Переопределение BeanFactoryPostProcessor](#22-%D0%9F%D0%B5%D1%80%D0%B5%D0%BE%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-beanfactorypostprocessor)
     - [2.3 Переопределение BeanPostProcessor](#23-%D0%9F%D0%B5%D1%80%D0%B5%D0%BE%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-beanpostprocessor)
 - [3. Жизненный цикл бина \(более подробно\)](#3-%D0%96%D0%B8%D0%B7%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D1%86%D0%B8%D0%BA%D0%BB-%D0%B1%D0%B8%D0%BD%D0%B0-%D0%B1%D0%BE%D0%BB%D0%B5%D0%B5-%D0%BF%D0%BE%D0%B4%D1%80%D0%BE%D0%B1%D0%BD%D0%BE)
+- [4. Закрытие контейнера](#4-%D0%97%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%B8%D0%B5-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%B0)
 
 <!-- /MarkdownTOC -->
 
@@ -179,3 +180,25 @@
     - вызывается метод из аннотации **@Bean(destroyMethod=...)**
 
 Еще более подробно, см. [BeanFactory docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanFactory.html)
+
+## 4. Закрытие контейнера
+
+Если не закрыть правильно, не будут вызваны методы жизненного цикла на уничтожение бинов (@`PreDestroy` и т. п.)
+
+Способы закрытия: 
+
+* не веб-приложение:
+    - (рекомендуется) установить хук **ConfigurableApplicationContext::registerShutdownHook()**
+        + надежнее чем `close` из-за исключений
+    - вызвать **ConfigurableApplicationContext::close()**
+* веб-приложение:
+    - **ContextLoaderListener** автоматически закроет контекст, когда веб-контейнер остановит приложение
+* SpringBoot:
+    - **ApplicationContext** будет автоматически остановлен
+    - Shutdown хук регистрируется автоматически
+    - **ContextLoaderListener** также автоматически закрывает контекст в веб-приложении 
+
+Кратко:
+
+* веб, SpringBoot - закроют автоматом
+* в остальных - `ctx.registerShutdownHook();`
