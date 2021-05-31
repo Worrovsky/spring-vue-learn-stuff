@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Person</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <form action="#" th:object="${person}">
+        <div class="my-3">
+            <label for="name" class="form-label">Name</label>
+            <input class="form-control" type="text" th:field="*{name}"/>
+        </div>
+        <div class="my-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" th:field="*{email}">
+        </div>
+
+        <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input id="age" type="text" class="form-control" th:field="*{age}">
+        </div>
+
+        <p th:text="${#fields.hasAnyErrors()}"></p>
+        <p th:text="${#fields.hasErrors('age')}"></p>
+    </form>
+</div>
+</body>
+</html>
