@@ -10,23 +10,34 @@
 </head>
 <body>
 <div class="container">
-    <form action="#" th:object="${person}">
+    <form action="#" th:action="@{/person}" th:object="${person}" method="post">
         <div class="my-3">
             <label for="name" class="form-label">Name</label>
-            <input class="form-control" type="text" th:field="*{name}"/>
+            <input id="name" class="form-control" type="text" th:field="*{name}"/>
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Name Error</p>
         </div>
         <div class="my-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" th:field="*{email}">
+            <input id="email" type="email" class="form-control" th:field="*{email}">
         </div>
 
         <div class="mb-3">
             <label for="age" class="form-label">Age</label>
             <input id="age" type="text" class="form-control" th:field="*{age}">
+            <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="text-danger">Age Error</p>
         </div>
 
         <p th:text="${#fields.hasAnyErrors()}"></p>
         <p th:text="${#fields.hasErrors('age')}"></p>
+
+        <div>
+            <h3>All errors</h3>
+            <ul>
+                <li th:each="err : ${#fields.errors()}" th:text="${err}" class="text-warning" >Some error</li>
+            </ul>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 </body>

@@ -26,3 +26,12 @@ https://github.com/eugenp/learn-spring-security/tree/module2
 * Eclipce: при сохранении
 * Idea Ultimate: Run/Edit configuration... поставить флаги для Spring Boot
 * Idea CE: Build Project (Ctrl + F9) или Recompile (Ctrl + Shift + F9) 
+
+## 2. Thymeleaf 
+
+[кратко](https://www.thymeleaf.org/doc/articles/standarddialect5minutes.html)
+
+**th:field** - из интеграции Thymeleaf + Spring. [Подробнее тут](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#creating-a-form)
+
+Обычно включает в себя атрибуты `id`, `value`, `name`. Но зависит от типа поля ввода.
+

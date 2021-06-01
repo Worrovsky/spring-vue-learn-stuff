@@ -1,9 +1,16 @@
 package com.example.web.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Person {
 
+    @NotEmpty(message = "Name is required!")
     private String name;
     private String email;
+    @Min(18)
     private int age;
 
     public Person(String name, String email, int age) {
