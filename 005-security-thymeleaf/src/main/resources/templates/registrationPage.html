@@ -13,19 +13,19 @@
 <div class="container">
     <h1>Hello, world!</h1>
 
-    <form id="userForm" th:object="${user}" th:action="@{/user/register}" method="post" class="form-floating">
-        <div class="form-floating mb-3">
-            <input id="email" type="email" class="form-control" title="email" th:field="*{email}"/>
+    <form id="userForm" th:object="${user}" th:action="@{/user/register}" method="post">
+        <div class="mb-3">
             <label for="email">Email</label>
+            <input id="email" type="email" class="form-control" title="email" th:field="*{email}"/>
         </div>
-        <div class="form-floating mb-3">
-            <input id="password" type="password" class="form-control" title="password" th:field="*{password}"/>
+        <div class="mb-3">
             <label for="password">Password</label>
+            <input id="password" type="password" class="form-control" title="password" th:field="*{password}"/>
         </div>
-        <div class="form-floating mb-3">
+        <div class="mb-3">
+            <label for="passwordConfirmation">Password Confirmation</label>
             <input id="passwordConfirmation" type="password" class="form-control" title="passwordConfirmation"
                    th:field="*{passwordConfirmation}"/>
-            <label for="passwordConfirmation">Password Confirmation</label>
         </div>
 
         <button class="btn btn-primary w-100" type="submit">Register</button>

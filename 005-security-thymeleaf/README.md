@@ -27,11 +27,71 @@ https://github.com/eugenp/learn-spring-security/tree/module2
 * Idea Ultimate: Run/Edit configuration... поставить флаги для Spring Boot
 * Idea CE: Build Project (Ctrl + F9) или Recompile (Ctrl + Shift + F9) 
 
-## 2. Thymeleaf 
+## 2. Thymeleaf и валидация формы
 
-[кратко](https://www.thymeleaf.org/doc/articles/standarddialect5minutes.html)
+[кратко о Thymeleaf](https://www.thymeleaf.org/doc/articles/standarddialect5minutes.html)
 
-**th:field** - из интеграции Thymeleaf + Spring. [Подробнее тут](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#creating-a-form)
+[пример Baeldung](https://www.baeldung.com/spring-thymeleaf-error-messages)
+[пример Getting Started](https://spring.io/guides/gs/validating-form-input/)
 
-Обычно включает в себя атрибуты `id`, `value`, `name`. Но зависит от типа поля ввода.
+### 2.1 Параметр BindingResult
+
+**BindingResult** - параметр метода контроллера. Через него можно получать ошибки, внедренные другими компонентами (например валидацией) или добавлять свои.
+
+Два типа ошибок: связанные с объектом **ObjectError** и с полем объекта **FieldError**.
+
+    @PostMapping("/person")
+    public ModelAndView postPerson(Person person, BindingResult result) {
+        FieldError fieldError = new FieldError("person", "age"
+                , "programmatically added error for 'Age' of 'Person'");
+        result.addError(fieldError);
+        ...
+    }
+
+### 2.2 Валидация через аннотации
+
+Один из способов проверки - валидация через аннотации `javax.validation` (зависимость `spring-boot-starter-validation`) - **@Valid** и **@Min**, **@NotEmpty** и др.
+
+Важно: порядок параметров метода контроллера важен: объект с аннотацией **@Valid**, следующим обязательно **BindingResult**. Иначе - исключение. Сделано так для возможности валидации нескольких объектов, на каждый объект - свой `BindingResult`
+
+Для аннотаций над полями можно задавать сообщения. Если не заданы, будут показаны сообщения по умолчанию. Есть I18n.
+
+### 2.3 Создание формы в Thymeleaf
+
+Форма обычно связывается с каким-либо объектом
+
+    <form th:object="${person}" method="post">
+
+Этот объект передается в параметры метода контроллера или в возвращаемом значении из контроллера. Обращать внимание на соответствие имен объекта в методах и шаблоне.
+
+    @GetMapping("/person")
+    public ModelAndView getPerson(Person person) {
+        return new ModelAndView("person", "person", person);
+    }
+
+Имея объект, можем получить доступ к его полям:
+
+    <input type="text" id="date" name="date" th:value="*{date}"/>
+
+Или сокращенная запись с помощью **th:field** - из интеграции Thymeleaf + Spring. [Подробнее тут](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#creating-a-form). Обычно включает в себя атрибуты `id`, `value`, `name`. Но зависит от типа поля ввода.
+    
+    <input type="text" th:field="*{date}"/>
+
+### 2.4 Отражение ошибок в Thymeleaf
+
+Объект **BindingResult** передается шаблонизатору. В макете к нему есть доступ через объект **fields**. Это класс **Fields** из пакета `org.thymeleaf.spring5` (интеграция Thymeleaf + Spring). Имеет доступ к ошибкам глобальным или ошибкам поля, добавленным в **BindingResult**.
+
+Почему-то не работает с методом GET. Добавляем ошибку программно в BindingResult в контроллере. Возвращаем ModelAndView, но в шаблоне не видно ошибок. Точно такой же код для POST работает.
+
+    th:if="${#fields.hasErrors('name')}"
+
+Другой атрибут **th:error** - просто выводит список ошибок по полю. Вот примерные аналоги
+
+    <li th:each="err : ${#fields.errors('date')}" th:text="${err}" />
+    <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Wrong date</p>
+
+[Документация Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#validation-and-error-messages)
+
+
+
 

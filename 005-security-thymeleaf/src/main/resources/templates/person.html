@@ -27,10 +27,7 @@
             <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="text-danger">Age Error</p>
         </div>
 
-        <p th:text="${#fields.hasAnyErrors()}"></p>
-        <p th:text="${#fields.hasErrors('age')}"></p>
-
-        <div>
+        <div th:if="${#fields.hasErrors()}">
             <h3>All errors</h3>
             <ul>
                 <li th:each="err : ${#fields.errors()}" th:text="${err}" class="text-warning" >Some error</li>
