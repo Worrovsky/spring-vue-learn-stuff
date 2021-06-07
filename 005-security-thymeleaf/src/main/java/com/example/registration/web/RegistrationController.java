@@ -3,6 +3,8 @@ package com.example.registration.web;
 import com.example.registration.model.User;
 import com.example.registration.service.UserService;
 import com.example.registration.validation.EmailExistException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
+    private static Logger log = LoggerFactory.getLogger(RegistrationController.class);
     @Autowired
     private UserService userService;
 
@@ -27,6 +30,9 @@ public class RegistrationController {
 
     @PostMapping("/user/register")
     public ModelAndView registerUser(@Valid User user, BindingResult result) {
+
+        log.info("register user: " + user);
+
         if (result.hasErrors()) {
             return new ModelAndView("registrationPage", "user", user);
         }
@@ -39,6 +45,6 @@ public class RegistrationController {
             return new ModelAndView("registrationPage", "user", user);
         }
 
-        return new ModelAndView("redirect:/login");
+        return new ModelAndView("redirect:/person");
     }
 }

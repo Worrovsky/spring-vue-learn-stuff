@@ -95,3 +95,38 @@ https://github.com/eugenp/learn-spring-security/tree/module2
 
 
 
+
+
+## 3. H2 Console и Spring Security
+
+Настройка консоли (файл `application.properties`):
+
+    spring.h2.console.enabled=true
+    spring.h2.console.path=/h2
+
+При наличии DevTools разрешена по умолчанию, url `h2-console`
+
+Можно настроить желаемые координаты БД:
+
+    spring.datasource.url=jdbc:h2:mem:testdb
+    spring.datasource.username=sa
+    spring.datasource.password=
+
+
+Для совместной работы с Spring Security:
+
+* зависимость H2 подключить с scope=compile (по умолчанию так и будет)
+* разрешить доступ к url консоли
+* отключить csrf
+* отключить ограничение на работу с фреймами (консоль использует фреймы) [docs про фреймы](https://docs.spring.io/spring-security/site/docs/3.2.0.CI-SNAPSHOT/reference/html/appendix-namespace.html#nsa-frame-options)
+
+Образец конфигурации:
+
+    http
+          .authorizeRequests()
+            .mvcMatchers("/h2/**").permitAll();
+    http.csrf().disable();
+    http.headers().frameOptions().disable();
+
+
+

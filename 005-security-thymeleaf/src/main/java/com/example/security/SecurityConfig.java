@@ -27,15 +27,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http
           .authorizeRequests()
-            .mvcMatchers("/login", "/signup", "/user/register").permitAll()
+            .mvcMatchers("/signup", "/user/register").permitAll()
             .mvcMatchers("person").permitAll()
+            .mvcMatchers("/h2/**").permitAll()
             .anyRequest().authenticated()
           .and()
             .formLogin()
-              .loginPage("/login")
+              .loginPage("/login").permitAll()
           .and()
             .logout().permitAll().logoutUrl("/logout");
-        //formatter:on
+       //formatter:on
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
 
     }
 
