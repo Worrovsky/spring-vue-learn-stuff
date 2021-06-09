@@ -31,20 +31,22 @@ public class RegistrationController {
     @PostMapping("/user/register")
     public ModelAndView registerUser(@Valid User user, BindingResult result) {
 
-        log.info("register user: " + user);
 
         if (result.hasErrors()) {
+            log.info("have error: " + user);
             return new ModelAndView("registrationPage", "user", user);
         }
 
         try {
             userService.registerUser(user);
+            log.info("registered: " + user);
         } catch (EmailExistException e) {
+            log.info("user exists: " + user);
             FieldError emailError = new FieldError("user", "email", e.getMessage());
             result.addError(emailError);
             return new ModelAndView("registrationPage", "user", user);
         }
 
-        return new ModelAndView("redirect:/person");
+        return new ModelAndView("redirect:/login");
     }
 }
