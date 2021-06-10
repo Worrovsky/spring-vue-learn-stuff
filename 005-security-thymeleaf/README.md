@@ -129,4 +129,14 @@ https://github.com/eugenp/learn-spring-security/tree/module2
     http.headers().frameOptions().disable();
 
 
+## 4. Registration flow
 
+Настройка страницы логина:
+
+* свой адрес задать `http.formLogin().loginPage("/login").permitAll()`
+* можно указать свой адрес обработки `http.formLogin().loginProcessingUrl("/doLogin")`. В форме такой же адрес указать.
+* контроллер создать для этого адреса, возвращающий страницу-шаблон
+* настроить страницу-шаблон:
+    - обычно форма с методом POST `<form id="userForm" th:action="@{/doLogin}" method="post">`
+    - параметры формы настроить. По умолчанию ожидает `username` и `password`. Можно настроить свой `http.formLogin().usernameParameter("my-username")` и в шаблоне `<input id="username" name="my-username"..>`
+    - доступ к ошибкам `th:if="${param.error}"`

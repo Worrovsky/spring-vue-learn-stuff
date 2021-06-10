@@ -10,4 +10,9 @@ public class ProtectedController {
     public String secret() {
         return "You got secret!";
     }
+
+    @GetMapping("/")
+    public String index() {
+        return "Hello world!";
+    }
 }

@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
               .loginPage("/login").permitAll()
                 .loginProcessingUrl("/doLogin")
+                  .usernameParameter("custom-username")
           .and()
             .logout().permitAll().logoutUrl("/logout");
        //formatter:on
