@@ -140,3 +140,17 @@ https://github.com/eugenp/learn-spring-security/tree/module2
     - обычно форма с методом POST `<form id="userForm" th:action="@{/doLogin}" method="post">`
     - параметры формы настроить. По умолчанию ожидает `username` и `password`. Можно настроить свой `http.formLogin().usernameParameter("my-username")` и в шаблоне `<input id="username" name="my-username"..>`
     - доступ к ошибкам `th:if="${param.error}"`
+
+
+Подключение **UserDetailsService**:
+
+* создать класс, реализующий **UserDetailsService**
+* метод интерфейса должен возвращать объект **userdetails.User** или ичключение **UserNotFoundException**. Поиск можно выполнять в БД например.
+* класс подключаем через конфигурацию `auth.userDetailsService(userDetailsService)`
+
+Использование **PasswordEncoder**
+
+* регистрируем как бин
+* используем в двух местах:
+    - при создании новых пользователей для сохранения в БД хеша пароля
+    - передаем в настройку `auth.passwordEncoder(passwordEncoder())`
