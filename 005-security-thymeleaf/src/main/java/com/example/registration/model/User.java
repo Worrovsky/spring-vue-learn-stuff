@@ -13,6 +13,7 @@ public class User {
     private Long id;
     private String email;
     private String password;
+    private boolean enabled;
     @Transient
     private String passwordConfirmation;
 
@@ -39,6 +40,14 @@ public class User {
 
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Long getId() {
