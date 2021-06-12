@@ -131,7 +131,7 @@ https://github.com/eugenp/learn-spring-security/tree/module2
 
 ## 4. Registration flow
 
-Настройка страницы логина:
+**Настройка страницы логина**:
 
 * свой адрес задать `http.formLogin().loginPage("/login").permitAll()`
 * можно указать свой адрес обработки `http.formLogin().loginProcessingUrl("/doLogin")`. В форме такой же адрес указать.
@@ -142,15 +142,25 @@ https://github.com/eugenp/learn-spring-security/tree/module2
     - доступ к ошибкам `th:if="${param.error}"`
 
 
-Подключение **UserDetailsService**:
+**Подключение **UserDetailsService****:
 
 * создать класс, реализующий **UserDetailsService**
 * метод интерфейса должен возвращать объект **userdetails.User** или ичключение **UserNotFoundException**. Поиск можно выполнять в БД например.
 * класс подключаем через конфигурацию `auth.userDetailsService(userDetailsService)`
 
-Использование **PasswordEncoder**
+**Использование **PasswordEncoder****:
 
 * регистрируем как бин
 * используем в двух местах:
     - при создании новых пользователей для сохранения в БД хеша пароля
     - передаем в настройку `auth.passwordEncoder(passwordEncoder())`
+
+**Подтверждение регистрации**:
+
+* используется поле **UserDetails.enabled**
+* при создании устанавливается в `false`
+* для такого пользователя Spring Security не выполняет аутентификацию
+* требуется, чтобы пользователь каким-нибудь образом подтвердил регистрацию, тогда поле `enabled` устанавливается в `true`.
+* подтверждение выполняется через создание токена (`String token = UUID.randomUUID().toString`), добавлением даты протухания и сохранением в БД этого токена. Токен привязан к пользователю.
+* далее формируется ссылка на основе токена `String confirmationUrl = "registrationConfirm?token=" + token.getToken();` и передается пользователю. Обычно на почту отсылается.
+* Контроллер, обрабатывающий ссылку, извлекает токен из url, читает токен из БД, проверяет дату действия и если все хорошо, устанавливает `enabled` у пользователя в `true`. Не забыть разрешить доступ к ссылкам без аутентификации в конфигурации.

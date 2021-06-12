@@ -22,11 +22,21 @@ public class UserService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return repository.save(user);
+        User registeredUser = repository.save(user);
+
+        return registeredUser;
     }
 
     private boolean emailExists(String email) {
         User user = repository.findByEmail(email);
         return user != null;
+    }
+
+    public void deleteUser(User user) {
+        repository.delete(user);
+    }
+
+    public User updateUser(User user) {
+        return repository.save(user);
     }
 }

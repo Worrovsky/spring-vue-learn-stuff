@@ -1,22 +1,27 @@
-package com.example.registration.model;
+package com.example.verification;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.example.registration.model.User;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 public class VerificationToken {
 
+    private static final long EXPIRATION_IN_MINUTES = 1;
     @Id
     @GeneratedValue
     private Long id;
 
     private String token;
 
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     private User user;
 
     private LocalDateTime expirationDate;
+
+    public VerificationToken() {
+    }
 
     public VerificationToken(String token, User user) {
         this.token = token;
@@ -25,8 +30,7 @@ public class VerificationToken {
     }
 
     private LocalDateTime calculateExpiration() {
-
-
+        return LocalDateTime.now().plusMinutes(EXPIRATION_IN_MINUTES);
     }
 
     public Long getId() {
@@ -60,4 +64,5 @@ public class VerificationToken {
     public void setExpirationDate(LocalDateTime expirationDate) {
         this.expirationDate = expirationDate;
     }
+
 }

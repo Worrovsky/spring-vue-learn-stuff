@@ -3,6 +3,8 @@ package com.example.registration.web;
 import com.example.registration.model.User;
 import com.example.registration.service.UserService;
 import com.example.registration.validation.EmailExistException;
+import com.example.verification.VerificationService;
+import com.example.verification.VerificationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,12 @@ import javax.validation.Valid;
 public class RegistrationController {
 
     private static Logger log = LoggerFactory.getLogger(RegistrationController.class);
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private VerificationService verificationService;
 
     @GetMapping("/signup")
     public ModelAndView signup() {
@@ -38,7 +44,10 @@ public class RegistrationController {
         }
 
         try {
-            userService.registerUser(user);
+            User registeredUser = userService.registerUser(user);
+            VerificationToken token = verificationService.createToken(registeredUser);
+            verificationService.sentTokenToUser(token);
+
             log.info("registered: " + user);
         } catch (EmailExistException e) {
             log.info("user exists: " + user);
