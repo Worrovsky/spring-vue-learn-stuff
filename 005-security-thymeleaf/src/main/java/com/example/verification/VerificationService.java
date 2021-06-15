@@ -6,7 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,11 +27,20 @@ public class VerificationService {
         return repository.save(verificationToken);
     }
 
-    public void sentTokenToUser(VerificationToken token) {
+    public void sentTokenToUser(HttpServletRequest req, VerificationToken token) {
         // for simplicity just log url
         // in real app need send full link to email
-        String confirmationUrl = "registrationConfirm?token=" + token.getToken();
-        log.info("--- to confirm registration visit " + confirmationUrl);
+        final String path = "registrationConfirm";
+        DefaultUriBuilderFactory builderFactory = new DefaultUriBuilderFactory();
+        URI confirmationUri = builderFactory.builder()
+                .scheme(req.getScheme())
+                .host(req.getServerName())
+                .port(req.getServerPort())
+                .path(path)
+                .queryParam("token", token.getToken())
+                .build();
+
+        log.info("--- to confirm registration visit " + confirmationUri);
     }
 
     public VerificationToken getToken(String token) {

@@ -39,4 +39,14 @@ public class UserService {
     public User updateUser(User user) {
         return repository.save(user);
     }
+
+    public User findUserByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    public void changePassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        repository.save(user);
+
+    }
 }

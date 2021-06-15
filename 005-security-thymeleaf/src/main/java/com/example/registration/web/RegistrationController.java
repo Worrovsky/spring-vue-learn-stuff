@@ -11,17 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
 
-    private static Logger log = LoggerFactory.getLogger(RegistrationController.class);
+    private final static Logger log = LoggerFactory.getLogger(RegistrationController.class);
 
     @Autowired
     private UserService userService;
@@ -35,7 +35,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/user/register")
-    public ModelAndView registerUser(@Valid User user, BindingResult result) {
+    public ModelAndView registerUser(@Valid User user, HttpServletRequest req, BindingResult result) {
 
 
         if (result.hasErrors()) {
@@ -46,7 +46,7 @@ public class RegistrationController {
         try {
             User registeredUser = userService.registerUser(user);
             VerificationToken token = verificationService.createToken(registeredUser);
-            verificationService.sentTokenToUser(token);
+            verificationService.sentTokenToUser(req, token);
 
             log.info("registered: " + user);
         } catch (EmailExistException e) {
