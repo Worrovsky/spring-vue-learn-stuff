@@ -29,6 +29,14 @@
             <label for="password">Password</label>
             <input id="password" name="password" type="password" class="form-control" title="password"/>
         </div>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input id="remember" type="checkbox" name="remember-me">
+                Remember Me
+            </label>
+        </div>
+
         <div>
             <button class="btn btn-primary mb-3" type="submit">Login</button>
             <a class="btn btn-secondary mb-3" th:href="@{/signup}">Sign Up</a>

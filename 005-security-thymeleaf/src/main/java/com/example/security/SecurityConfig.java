@@ -44,7 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/doLogin")
                   .usernameParameter("custom-username")
           .and()
-            .logout().permitAll().logoutUrl("/logout");
+            .logout().permitAll().logoutUrl("/logout")
+          .and()
+            .rememberMe()
+                .rememberMeCookieName("custom-remember-me-cookie")
+                .rememberMeParameter("remember-me")
+                .userDetailsService()
+                .tokenValiditySeconds(60*2);
+
        //formatter:on
 
         http.csrf().disable();
