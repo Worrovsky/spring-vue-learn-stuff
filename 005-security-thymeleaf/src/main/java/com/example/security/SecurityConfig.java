@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -47,9 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .logout().permitAll().logoutUrl("/logout")
           .and()
             .rememberMe()
+                .tokenRepository(persistentTokenRepository())
                 .rememberMeCookieName("custom-remember-me-cookie")
                 .rememberMeParameter("remember-me")
-                .userDetailsService()
                 .tokenValiditySeconds(60*2);
 
        //formatter:on
@@ -57,6 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().disable();
 
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        return new InMemoryTokenRepositoryImpl();
     }
 
     @Bean
