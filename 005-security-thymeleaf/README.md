@@ -16,7 +16,7 @@
     - [6.4 Настройка Remember Me с Persistent Token](#64-Настройка-remember-me-с-persistent-token)
 
 <!-- /MarkdownTOC -->
-
+    
 [baeldung github] (https://github.com/eugenp/learn-spring-security/tree/module2)
 
 ## 1. DevTools
