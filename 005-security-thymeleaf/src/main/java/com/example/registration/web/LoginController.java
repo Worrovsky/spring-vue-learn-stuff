@@ -23,4 +23,8 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/leaf")
+    public String thymeleafSecurityExample() {
+        return "thymeleafExample";
+    }
 }

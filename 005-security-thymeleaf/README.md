@@ -14,6 +14,7 @@
     - [6.2 Вариант с хешем](#62-Вариант-с-хешем)
     - [6.3 Persistent Token](#63-persistent-token)
     - [6.4 Настройка Remember Me с Persistent Token](#64-Настройка-remember-me-с-persistent-token)
+- [7. Интеграция Thymeleaf + Spring Security](#7-Интеграция-thymeleaf--spring-security)
 
 <!-- /MarkdownTOC -->
     
@@ -108,11 +109,6 @@
     <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Wrong date</p>
 
 [Документация Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#validation-and-error-messages)
-
-
-
-
-
 
 ## 3. H2 Console и Spring Security
 
@@ -359,3 +355,7 @@
       <version>3.0.4.RELEASE</version>
       <scope>compile</scope>
     </dependency>
+
+Добавить namespace
+
+    <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
