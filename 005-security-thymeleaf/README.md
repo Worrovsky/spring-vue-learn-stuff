@@ -325,3 +325,37 @@
 В зависимостях может понадобится классы Spring Data.
 
 Остальные методы настройки аналогичны случаю Hash-Based (**key()** не используется)
+
+
+## 7. Интеграция Thymeleaf + Spring Security
+
+[Пример с оф. сайта](https://www.thymeleaf.org/doc/articles/springsecurity.html)
+
+[github проекта](https://github.com/thymeleaf/thymeleaf-extras-springsecurity)
+
+Добавляет:
+
+* новые объекты для выражений:
+    - **#authentication** - представляет объект интерфейса **Authentication**
+    - **#authorization** - объект для проверки авторизации
+* новые атрибуты:
+    - **sec:authentication="prop"** - выводит свойство объекта `Authentication`
+    - **sec:authorize="expr"** или **sec:authorize-expr="expr"** - выводит элемент, если выражение вычисляется в истину.
+    - **sec:authorize-url="url"** - выводит элемент, если у авторизированного пользователя есть доступ к url
+    - **sec:authorize-acl="object :: permissions"** выводит элемент, если у пользователя есть указанное разрешение к указанному объекта Spring ACL.
+
+Примеры:
+
+    <div sec:authorize="isAuthenticated()">Видят только зарег-ные</div>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">Только с ролью</div>
+    <span sec:authentication="name">Bob</span>
+    <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+
+Нужна дополнительная зависимость. Не перепутать, есть еще `thymeleaf-extras-springsecurity5`. 
+
+    <dependency>
+      <groupId>org.thymeleaf.extras</groupId>
+      <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+      <version>3.0.4.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
