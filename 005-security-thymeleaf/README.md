@@ -15,6 +15,8 @@
     - [6.3 Persistent Token](#63-persistent-token)
     - [6.4 Настройка Remember Me с Persistent Token](#64-Настройка-remember-me-с-persistent-token)
 - [7. Интеграция Thymeleaf + Spring Security](#7-Интеграция-thymeleaf--spring-security)
+- [8. Конфигурация URL с помощью SpEL](#8-Конфигурация-url-с-помощью-spel)
+- [9. Хранение паролей](#9-Хранение-паролей)
 
 <!-- /MarkdownTOC -->
     
@@ -359,3 +361,72 @@
 Добавить namespace
 
     <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+
+
+## 8. Конфигурация URL с помощью SpEL
+
+В основе метод **access()**
+
+    http
+      .authorizeRequests()
+        .mvcMatchers("<url>").access("<expression>");
+
+Разные варианты:
+
+    access("hasRole('USER')")
+    access("hasAuthority('ROLE_USER')")
+    access("hasIpAddress('192.168.1.0/24')")
+    access("hasIpAddress('::1')")              // это localhost
+    access("isAnonymous()")                    // проверка, что не залогинен
+    access("request.method == 'GET'")          // отбор по методу
+    access("request.method != 'GET'")          // отрицание
+    not().access("request.method == 'GET'")    // или так
+    
+    // логические выражения
+    access("request.method != 'GET' and principal.username == 'user'")
+
+
+## 9. Хранение паролей 
+
+Правила:
+
+* никогда не храним пароли в чистом виде - используем хеширование
+* одного хеширования недостаточно - есть атаки через таблицы, словари. Нужно добавлять к паролю соль
+    - соль должна быть для каждого пароля своя, нельзя одну общую на приложение или даже пользователя
+    - соль - это случайное, достаточно длинное значение
+    - использовать стандартные проверенные алгоритмы со случайными криптостойкими генераторами
+    - соль не нужно скрывать. Можно хранить рядом с хешем
+* исключить брут-форс:
+    - key-stretching - замедление функции вычисления хеша (обычно ~500 мс)
+        + минусом - нагрузка на ресурсы и уязвимость к DoS-атакам
+    - ограничения по IP (капча)
+
+Одна из реализаций в Spring Security - BCrypt: хеширование + соль + замедление алгоритма. 
+
+Настраиваем кодировщик для конфигурации:
+
+        ...
+        auth
+            .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder())
+    
+     @Bean          
+     public PasswordEncoder() {
+        return new BcryptPasswordEncoder();
+     }
+
+Не забываем использовать при сохранении пользователей:
+
+    user.setPassword(passwordEncoder.encode(user.getPassword));
+
+Хешированный пароль выглядит так:
+
+    $2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG
+        здесь $2a$ - признак алгоритма BCrypt
+              10 - степень замедления алгоритма (от 1 до 32 при создании можно задавать).
+              первые 22 символа - соль
+              остальные - собственно хеш
+
+Есть другие алгоритмы. Можно для тестов без хеширования:
+
+    NoOpPasswordEncoder.getInstance();

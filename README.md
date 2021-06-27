@@ -49,5 +49,8 @@
     - [4. Registration flow](/005-security-thymeleaf/README.md#4-registration-flow)
     - [5. RedirectAttriibutes](/005-security-thymeleaf/README.md#5-redirectattriibutes)
     - [6. Remember Me](/005-security-thymeleaf/README.md#6-remember-me)
+    - [7. Интеграция Thymeleaf + Spring Security](/005-security-thymeleaf/README.md#7-Интеграция-thymeleaf--spring-security)
+    - [8. Конфигурация URL с помощью SpEL](/005-security-thymeleaf/README.md#8-Конфигурация-url-с-помощью-spel)
+    - [9. Хранение паролей](/005-security-thymeleaf/README.md#9-Хранение-паролей)
 
 
