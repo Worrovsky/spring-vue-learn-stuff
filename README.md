@@ -52,5 +52,5 @@
     - [7. Интеграция Thymeleaf + Spring Security](/005-security-thymeleaf/README.md#7-Интеграция-thymeleaf--spring-security)
     - [8. Конфигурация URL с помощью SpEL](/005-security-thymeleaf/README.md#8-Конфигурация-url-с-помощью-spel)
     - [9. Хранение паролей](/005-security-thymeleaf/README.md#9-Хранение-паролей)
-
-
+* [006. Spring Security, part 2](/006-spring-security-part-2)
+    - [1. Собственный AuthenticationProvider](/006-spring-security-part-2/README.md#1-Собственный-authenticationprovider)
