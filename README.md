@@ -54,3 +54,6 @@
     - [9. Хранение паролей](/005-security-thymeleaf/README.md#9-Хранение-паролей)
 * [006. Spring Security, part 2](/006-spring-security-part-2)
     - [1. Собственный AuthenticationProvider](/006-spring-security-part-2/README.md#1-Собственный-authenticationprovider)
+    - [2. Несколько AuthenticationProvider. Настройка ProviderManager.](/006-spring-security-part-2/README.md#2-Несколько-authenticationprovider-Настройка-providermanager)
+    - [3. Варианты хранения данных пользователей](/006-spring-security-part-2/README.md#3-Варианты-хранения-данных-пользователей)
+
