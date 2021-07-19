@@ -3,6 +3,10 @@
 - [1. Собственный AuthenticationProvider](#1-Собственный-authenticationprovider)
 - [2. Несколько AuthenticationProvider. Настройка ProviderManager.](#2-Несколько-authenticationprovider-Настройка-providermanager)
 - [3. Варианты хранения данных пользователей](#3-Варианты-хранения-данных-пользователей)
+- [4. Работа с сессиями](#4-Работа-с-сессиями)
+    - [4.1 Разные настройки](#41-Разные-настройки)
+    - [4.2 Информация о сессии](#42-Информация-о-сессии)
+    - [4.3 Защита от атаки Session Fixation](#43-Защита-от-атаки-session-fixation)
 
 <!-- /MarkdownTOC -->
 
@@ -117,5 +121,68 @@
        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 
 
+## 4. Работа с сессиями
+
+### 4.1 Разные настройки
+
+Настройка **максимального количества сессий** на пользователя:
+
+    http.sessionManagement().maximumSessions(1);
+
+При этом если пользователь логинится еще раз, предыдущая сессия станет невалидной (увидит это при попытке получить данные с куки старой сессии, просто как сообщение на странице).
+
+Можно **задать url**, куда будет перенаправлять, если сессия истекла:
+
+    http.sessionManagment().expiredUrl("/expireSession");
+
+Соответственно нужен контроллер и настройка доступа к этому url.
+
+### 4.2 Информация о сессии
+
+Есть класс **SessionInformation**, представляющий сессию. Содержит строковый Id сессии, дату последнего запроса, данные пользователя (principal в виде строки), истекла или нет.
+
+Есть интерфейс **SessionRegistry**, который управляет данными сессии **SessionInformation** (создает, обновляет, получает). 
+
+Основные методы:
+
+* **getAllPrincipals()** - возвращает все известные principal
+*  **getAllSessions(Opject principal)** - возвращает сессии, связанные с principal
+*  **getSessionInformation(String sessionId)** - получает инфо сессии 
+*  **refreshLastRequest(String sessionId)** 
+*  **registerNewSession(String sessionId, Object principal)**
+
+Реализация: **SessionRegistryImpl**, хранит данные сессий и principal в **ConcurrrentMap**, также подписана на удаление сессии.
+
+Подключение **SessionRegistry**:
+
+* создать бин (например в классе-конфигурации)
+    - `return new SessionRegistryImpl();`
+* подключить к конфигурации
+    - `http.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());`
+* использовать, например в контроллере
+    - `sessionRegistry.getAllPrincipals(); ...`
+
+### 4.3 Защита от атаки Session Fixation
+
+[javadev](https://www.javadevjournal.com/spring-security/spring-security-session-fixation/)
+
+Суть атаки: 
+
+* атакующий подсовывает пользователю свою неавторизованную сессию, например в url `http://example.com?sid=...` (как через куки вопрос)
+* пользователь авторизуется под этой сессией
+* теперь у атакующего есть id авторизованной сессии, а т. к. Spring Security поддерживает авторизацию через сессии, значит атакующий авторизован
+
+Основная идея защиты: смена сессии после авторизации.
+
+Настройка в Spring:
+
+    http.sessionManagement().sessionFixation().none();
+
+Варианты:
+
+* `none()` - отсутствие защиты, Spring ничего не делает, предполагается, что самостоятельно реализуют защиту
+* `newSession()` - создается новая сессия, атрибуты предыдущей сессии не сохраняются
+* `migrateSession()` - создается новая сессия, атрибуты предыдущей сохраняются (оптимальное решение в большинстве случаев)
+* `changeSessionId()` - меняется Ид сессии через методы сервлета (> Servlet 3.1)
 
 

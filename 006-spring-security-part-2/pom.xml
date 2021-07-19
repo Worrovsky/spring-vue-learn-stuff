@@ -12,6 +12,7 @@
         <module>003-jpa-user-persistent</module>
         <module>001-in-memory-persistent-custom-auth-provider</module>
         <module>002-jdbc-persistent</module>
+        <module>004-session-registry</module>
     </modules>
 
     <properties>
