@@ -56,5 +56,5 @@
     - [1. Собственный AuthenticationProvider](/006-spring-security-part-2/README.md#1-Собственный-authenticationprovider)
     - [2. Несколько AuthenticationProvider. Настройка ProviderManager.](/006-spring-security-part-2/README.md#2-Несколько-authenticationprovider-Настройка-providermanager)
     - [3. Варианты хранения данных пользователей](/006-spring-security-part-2/README.md#3-Варианты-хранения-данных-пользователей)
-    - - [4. Работа с сессиями (SessionRegistry)](/006-spring-security-part-2/README.md#4-Работа-с-сессиями)
+    - [4. Работа с сессиями (SessionRegistry)](/006-spring-security-part-2/README.md#4-Работа-с-сессиями)
 
