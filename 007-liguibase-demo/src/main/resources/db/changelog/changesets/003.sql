@@ -1,0 +1,1 @@
+INSERT INTO User VALUES(1, 'Alice')
